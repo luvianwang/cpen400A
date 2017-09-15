@@ -1,0 +1,31 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	background-color: grey;
+}
+
+#wrap{
+  position: relative;
+  	width: 1000px;
+    height: 1000px;
+    top:20px;
+    margin: auto;
+  	text-align: left;
+    background-color: white;
+    border: 2px solid black;
+}
+
+#header{
+  position: relative;
+  	width: 800px;
+    top:20px;
+  	text-align: left;
+}
+
+#mainContent{
+  position: relative;
+  	width: 800px;
+    top:220px;
+    background-color: red;
+  	text-align: left;
+}
