@@ -23,6 +23,21 @@ body {
   	text-align: left;
 }
 
+#logo{
+	width:140px;
+	height: 140px;
+	background-color: #b3ffff;
+	float: left;
+	padding-right: 20px;
+}
+
+#welcomeBanner{
+	width:600px;
+	height: 140px;
+	background-color: #b3ffff;
+	float: right;
+}
+
 #mainContent{
   position: relative;
   width: 800px;
@@ -32,22 +47,23 @@ body {
 }
 
 #navigationMenu{
-	width:140px;
+	width:160px;
 	height: 1000px;
 	font-size: 30px;
 	padding: 0px;
 	float: left;
-	margin-right: 80px;
+	margin-right: 20px;
 }
 
 .menuButton{
-	background-color: #CFFF98;
+	background-color: #b3ffff;
 	padding:10px;
 	text-align: center;
 }
 
 .menuButton:hover{
-	background: #4CAF50;
+	color:white;
+	background: #00b3b3;
 	font-style: oblique;
 }
 
@@ -55,13 +71,14 @@ body {
 	width:900px;
 }
 
-figure.item {
+li.product {
     vertical-align: top;
     display: inline-block;
     text-align: center;
     width: 120px;
 		height: 120px;
 		padding: 10px;
+		margin: 20px;
 }
 img {
     width: 100px;
@@ -78,15 +95,25 @@ img {
   display: none;
 	width: 100px;
 	text-align: center;
-	margin-top: 100px;
+	margin-top: 80px;
 	margin-left: 10px;
 }
 
-#product:hover #hideText {
+#item:hover #hideText {
     display:block;
 		background-color: grey;
 	}
 
-#product:hover{
+#item:hover{
 	background-color: #e0e0d1;
+}
+
+#footer {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  left: 15px;
+  padding: 1rem;
+  background-color: #b3ffff;
+  text-align: center;
 }
