@@ -1,4 +1,4 @@
-//
+//Product array with names of all product items.
 var productsArray = [
   "Box1",
   "Box2",
@@ -14,12 +14,15 @@ var productsArray = [
   "Tent"
 ];
 
+//Global variables
 var inactiveTime = setTimeout(alertUser, 30000);
 var cart = [];
 var products = [];
 init();
 
-//Initialization
+/**
+ * Initializes the product array
+ */
 function init(){
   for(var i = 0; i < productsArray.length; i++){
     products[productsArray[i]] = 5;
