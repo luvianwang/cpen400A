@@ -30,25 +30,34 @@ body {
 	padding-right: 20px;
 }
 
+
 #showCart{
 	position: relative;
 	z-index:1000;
-	width:80px;
+	width:60px;
+	height:60px;
+	/**
 	background-color: #008CBA;
 	color:white;
+	**/
 	padding:10px;
 	text-align: center;
-	margin-left: 500px;
-	margin-top: 150px;
+	margin-left: 520px;
+	margin-top: 10px;
+	/**
 	border-radius: 12px;
+	**/
 }
 
+/**
 #showCart:hover{
 	cursor: pointer;
 	background-color: white;
 	color:black;
 	border: 2px solid #008CBA;
 }
+
+**/
 
 #welcomeBanner{
 	width:600px;
@@ -110,7 +119,7 @@ li.product {
     display: block;
 }
 
-#hideText{
+.hideText{
 	position: absolute;
 	color:white;
 	/*top:110px;*/
@@ -121,12 +130,12 @@ li.product {
 	margin-left: 10px;
 }
 
-#item:hover #hideText {
+.product:hover .hideText {
     display:block;
 		background-color: grey;
 	}
 
-#item:hover .cart{
+.product:hover .cart{
 	visibility: visible;
 }
 
@@ -138,7 +147,7 @@ li.product {
 	height: 80px;
 }
 
-#item:hover{
+.product:hover{
 	background-color: #e0e0d1;
 }
 
@@ -163,10 +172,11 @@ li.product {
 	visibility: hidden;
 }
 
-#item:hover .addButton{
+.product:hover .addButton{
 	visibility: visible;
 }
-#item:hover .removeButton{
+
+.product:hover .removeButton{
 	visibility: visible;
 }
 

@@ -1,3 +1,4 @@
+//
 var productsArray = [
   "Box1",
   "Box2",
@@ -16,10 +17,13 @@ var productsArray = [
 var inactiveTime = setTimeout(alertUser, 30000);
 var cart = [];
 var products = [];
+init();
 
 //Initialization
-for(var i = 0; i < productsArray.length; i++){
-  products.push({name: productsArray[i], quantity: 5});
+function init(){
+  for(var i = 0; i < productsArray.length; i++){
+    products[productsArray[i]] = 5;
+  }
 };
 
 function alertUser(){
@@ -32,40 +36,32 @@ function resetTimer(){
 };
 
 function addItem(name){
-    var index = -1;
-    for(var i= 0; i < cart.length; i++){
-      if(cart[i].name === name){
-        index = i;
-        break;
-      }
-    }
-    if(index > -1){
-      var quantity = cart[index].quantity;
-      cart[index].quantity = quantity + 1;
+    if(products[name] > 0){
+      products[name] = products[name] - 1;
     }else{
-      cart.push({name: name, quantity: 1});
+      alert("This product is out of stock.");
+      return;
     }
-    return index;
+    var numProduct = cart[name];
+    if(numProduct == null){
+      cart[name] = 1;
+    }else{
+      cart[name] = cart[name] + 1;
+    }
 };
 
 function removeItem(name){
-    var index = -1;
-    for(var i= 0; i < cart.length; i++){
-      if(cart[i].name === name){
-        index = i;
-        break;
-      }
-    }
-
-    if(index > -1){
-      var quantity = cart[index].quantity;
-      if(quantity === 1){
-        cart.splice(index, 1);
-      } else if (quantity > 1){
-        cart[index].quantity = quantity - 1;
-      }
-    }
-    return index;
+  if(products[name] < 5){
+    products[name] = products[name] + 1;
+  }
+  var numProduct = cart[name];
+  if(numProduct == null){
+    alert("Product does not exist in the cart.");
+  }else if(numProduct == 1){
+    delete cart[name];
+  }else{
+    cart[name] = cart[name] - 1;
+  }
 };
 
 function getItems(){
@@ -76,41 +72,20 @@ function getProducts(){
     return products;
 };
 
-function getQuantity(name){
-    var index = -1;
-    for(var i= 0; i < cart.length; i++){
-      if(cart[i].name === name){
-        index = i;
-        break;
-      }
-    }
-    if(index > -1){
-      var quantity = cart[index].quantity;
-      return quantity;
-    }
+function getNumOfProducts(name){
+  var numProduct = cart[name];
+  if(numProduct == null){
     return 0;
-};
-
-function setProductQuantity(productName, quantity){
-  var index = -1;
-  for(var i= 0; i < products.length; i++){
-    if(products.name === productName){
-      index = i;
-      break;
-    }
-  }
-
-  if(index > -1){
-    products[index].quantity = quantity;
+  }else{
+    return numProduct;
   }
 };
 
 function printCart(){
   var cartItems = "";
-  if(cart.length > 0){
-    for(var i = 0; i < cart.length; i++){
-      cartItems = cartItems + cart[i].name + " " + ":" + "  " + cart[i].quantity + "\n";
-    }
+  for (var key in cart) {
+    let value = cart[key];
+    cartItems = cartItems + key + " " + ":" + "  " + value + "\n";
   }
   //console.log(cartItems);
   return cartItems;
@@ -118,28 +93,17 @@ function printCart(){
 
 function addToCart(productName){
   addItem(productName);
-  var quantity = getQuantity(productName);
-  setProductQuantity(productName, quantity);
-  //console.log(getItems());
-  //console.log(getProducts());
   resetTimer();
 };
 
 function removeFromCart(productName){
-  var index = removeItem(productName);
-  if(index < 0){
-    alert("Product does not exist in the cart.");
-
-  }
-  var quantity = getQuantity(productName);
-  setProductQuantity(productName, quantity);
-  //console.log(getItems());
-  //console.log(getProducts());
+  removeItem(productName);
   resetTimer();
 };
 
 function showCart(){
   var cartItems = printCart();
+  console.log("In Show Cart");
   if(cartItems === ""){
     alert("No items in cart");
   }else{
