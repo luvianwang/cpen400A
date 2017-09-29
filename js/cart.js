@@ -21,7 +21,8 @@ var products = [];
 init();
 
 /**
- * Initializes the product array
+ * Initializes the global variable products.
+ *@modifies: 'product' variable with all products with quantity '5' by default
  */
 function init(){
   for(var i = 0; i < productsArray.length; i++){
@@ -29,15 +30,28 @@ function init(){
   }
 };
 
+/**
+* Alert user to be used by timeout function to alert user.
+*/
 function alertUser(){
   alert("Hey there! Are you still planning to buy something?");
 };
 
+/**
+*Clears and resets the global variable 'inactiveTime'. This function
+*is called whenever a click action is performed.
+*@modifies: 'inactiveTime' global variable.
+*/
 function resetTimer(){
   clearTimeout(inactiveTime);
   inactiveTime = setTimeout(alertUser, 30000);
 };
 
+/**
+*Adds a product item to global variable 'cart'.
+*@modifies: Adds a product item to 'cart' if not present or increments quantity by 1 if already
+*present.
+*/
 function addItem(name){
     if(products[name] > 0){
       products[name] = products[name] - 1;
@@ -53,6 +67,11 @@ function addItem(name){
     }
 };
 
+/**
+*Removes an item from global variable 'cart'.
+*@modifies: removes a product item from 'cart' if quanity is 1
+*otherwise decrements quantity by 1
+*/
 function removeItem(name){
   if(products[name] < 5){
     products[name] = products[name] + 1;
@@ -67,23 +86,10 @@ function removeItem(name){
   }
 };
 
-function getItems(){
-    return cart;
-};
-
-function getProducts(){
-    return products;
-};
-
-function getNumOfProducts(name){
-  var numProduct = cart[name];
-  if(numProduct == null){
-    return 0;
-  }else{
-    return numProduct;
-  }
-};
-
+/**
+*Constructs string of product items present in cart.
+*@returns: string with concatenated product item names and respective quantities.
+*/
 function printCart(){
   var cartItems = "";
   for (var key in cart) {
@@ -94,19 +100,28 @@ function printCart(){
   return cartItems;
 };
 
+/**
+* Add to cart functions adds product item to cart and resets timer.
+*/
 function addToCart(productName){
   addItem(productName);
   resetTimer();
 };
 
+/**
+*Remove from cart removes product item from cart and resets timer.
+*/
 function removeFromCart(productName){
   removeItem(productName);
   resetTimer();
 };
 
+/**
+*Show cart alerts the user about current cart status with the product items
+*in the cart presently.
+*/
 function showCart(){
   var cartItems = printCart();
-  console.log("In Show Cart");
   if(cartItems === ""){
     alert("No items in cart");
   }else{
