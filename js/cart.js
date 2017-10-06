@@ -35,6 +35,7 @@ function init(){
 */
 function alertUser(){
   alert("Hey there! Are you still planning to buy something?");
+  resetTimer();
 };
 
 /**
