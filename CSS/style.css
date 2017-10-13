@@ -30,19 +30,26 @@ body {
 	padding-right: 20px;
 }
 
+.button1 {
+    background-color: white;
+    color: black;
+		font-size: 20px;
+		padding:10px;
+    border: 1px solid black;
+}
 
 #showCart{
 	position: relative;
 	z-index:1000;
-	width:60px;
-	height:60px;
+	width:auto;
+	height:auto;
 	/**
 	background-color: #008CBA;
 	color:white;
 	**/
 	padding:10px;
 	text-align: center;
-	margin-left: 520px;
+	margin-left: 350px;
 	margin-top: 10px;
 	/**
 	border-radius: 12px;
@@ -161,6 +168,26 @@ li.product {
 	cursor: pointer;
 	visibility:hidden;
 }
+
+.outOfStock{
+	position:relative;
+	font-size: 12px ;
+	top:-40px;
+	background-color: #57d6c7;
+	font-weight: bold;
+	color: white;
+	cursor: pointer;
+	visibility:hidden;
+}
+
+.hideOutOfStock{
+	visibility: hidden;
+}
+
+.hideAddButton {
+	visibility: hidden;
+}
+
 .removeButton{
 	position:relative;
 	font-size: 12px ;
@@ -172,12 +199,30 @@ li.product {
 	visibility: hidden;
 }
 
+.hideRemoveButton{
+	visibility: hidden;
+}
+
 .product:hover .addButton{
 	visibility: visible;
 }
 
+.product:hover .outOfStock{
+	visibility: visible;
+	content: "This product is out of stock.";
+}
+
 .product:hover .removeButton{
 	visibility: visible;
+}
+
+#inactiveTimeDisplay{
+	margin-left: 200px;
+}
+
+#contactInfo{
+	  text-align: center;
+		margin-left: 250px;
 }
 
 #footer {
@@ -186,5 +231,4 @@ li.product {
   left: 15px;
   padding: 1rem;
   background-color: #b3ffff;
-  text-align: center;
 }

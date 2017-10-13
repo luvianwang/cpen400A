@@ -9,7 +9,7 @@
   <script src="http://ece.ubc.ca/~kumseok/src/cpen400a/test2.js" type="text/javascript"></script>-->
 	<script src="js/cart.js" type="text/javascript"></script>
   </head>
-  <body>
+  <body onload="init()">
 
     <div id="wrap">
 
@@ -24,7 +24,7 @@
         <img id="logo" src="images/welBanner.png" style="height:140px;width:600px"></img>
 
         <!--<p id="showCart" onclick="showCart()">Show Cart</p>-->
-        <p id="showCart" onclick="showCart()"><img id="logo" src="images/showCart.png" style="height:60px;width:60px"></img></p>
+        <div id="showCart" onclick="showCart()"><span><button id="cartTotal" class="button1">Cart ($0)</button><img id="logo" src="images/showCart.png" style="height:60px;width:60px"></img></span></div>
       </div>
               <!-- <p id="showCart">Show Cart</p> -->
 
@@ -46,8 +46,9 @@
           <li class="product">
             <div class="hideText"><span>$10</span></div>
             <img class="cart" src="images/cart.png"/>
-				    <button class="addButton"  onclick="addToCart('Box1')">Add</button>
-				    <button class="removeButton" onclick="removeFromCart('Box1')">Remove</button>
+				    <button id="add_Box1" class="addButton"  onclick="addToCart('Box1')">Add</button>
+            <div id="stock_Box1" class="hideOutOfStock"></div>
+				    <button id="remove_Box1" class="removeButton" onclick="removeFromCart('Box1')">Remove</button>
             <img class="productImg" src="images/Box1_$10.png"/>
             <figcaption class="caption">Box1</figcaption>
           </li>
@@ -56,6 +57,7 @@
             <div class="hideText"><span>$5</span></div>
             <img class="cart" src="images/cart.png"/>
 				    <button class="addButton" onclick="addToCart('Box2')">Add</button>
+            <div class="hideOutOfStock"></div>
 				    <button class="removeButton" onclick="removeFromCart('Box2')">Remove</button>
             <img class="productImg" src="images/Box2_$5.png"/>
             <figcaption class="caption">Box2</figcaption>
@@ -65,6 +67,7 @@
             <div class="hideText"><span>$20</span></div>
             <img class="cart" src="images/cart.png"/>
 				    <button class="addButton" onclick="addToCart('Clothes1')">Add</button>
+            <div class="hideOutOfStock"></div>
 				    <button class="removeButton" onclick="removeFromCart('Clothes1')">Remove</button>
             <img class="productImg" src="images/Clothes1_$20.png"/>
             <figcaption class="caption">Clothes1</figcaption>
@@ -74,6 +77,7 @@
             <div class="hideText"><span>$30</span></div>
             <img class="cart" src="images/cart.png"/>
 				    <button class="addButton" onclick="addToCart('Clothes2')">Add</button>
+            <div class="hideOutOfStock"></div>
 				    <button class="removeButton" onclick="removeFromCart('Clothes2')">Remove</button>
             <img class="productImg" src="images/Clothes2_$30.png"/>
             <figcaption class="caption">Clothes2</figcaption>
@@ -83,6 +87,7 @@
             <div class="hideText"><span>$50</span></div>
             <img class="cart" src="images/cart.png"/>
 				    <button class="addButton" onclick="addToCart('Jeans')">Add</button>
+            <div class="hideOutOfStock"></div>
 				    <button class="removeButton" onclick="removeFromCart('Jeans')">Remove</button>
             <img class="productImg" src="images/Jeans_$50.png"/>
             <figcaption class="caption">Jeans</figcaption>
@@ -92,6 +97,7 @@
             <div class="hideText"><span>$20</span></div>
             <img class="cart" src="images/cart.png"/>
 				    <button class="addButton" onclick="addToCart('Keyboard')">Add</button>
+            <div class="hideOutOfStock"></div>
 				    <button class="removeButton" onclick="removeFromCart('Keyboard')">Remove</button>
             <img class="productImg" src="images/Keyboard_$20.png"/>
             <figcaption class="caption">Keyboard</figcaption>
@@ -101,6 +107,7 @@
             <div class="hideText"><span>$40</span></div>
             <img class="cart" src="images/cart.png"/>
 				    <button class="addButton" onclick="addToCart('KeyboardCombo')">Add</button>
+            <div class="hideOutOfStock"></div>
 				    <button class="removeButton" onclick="removeFromCart('KeyboardCombo')">Remove</button>
             <img class="productImg" src="images/KeyboardCombo_$40.png"/>
             <figcaption class="caption">KeyboardCombo</figcaption>
@@ -110,6 +117,7 @@
             <div class="hideText"><span>$20</span></div>
             <img class="cart" src="images/cart.png"/>
 				    <button class="addButton" onclick="addToCart('Mice')">Add</button>
+            <div class="hideOutOfStock"></div>
 				    <button class="removeButton" onclick="removeFromCart('Mice')">Remove</button>
             <img class="productImg" src="images/Mice_$20.png"/>
             <figcaption class="caption">Mice</figcaption>
@@ -119,6 +127,7 @@
             <div class="hideText"><span>$350</span></div>
             <img class="cart" src="images/cart.png"/>
 				    <button class="addButton" onclick="addToCart('PC1')">Add</button>
+            <div class="hideOutOfStock"></div>
 				    <button class="removeButton" onclick="removeFromCart('PC1')">Remove</button>
             <img class="productImg" src="images/PC1_$350.png"/>
             <figcaption class="caption">PC1</figcaption>
@@ -128,6 +137,7 @@
             <div class="hideText"><span>$400</span></div>
             <img class="cart" src="images/cart.png"/>
 				    <button class="addButton" onclick="addToCart('PC2')">Add</button>
+            <div class="hideOutOfStock"></div>
 				    <button class="removeButton" onclick="removeFromCart('PC2')">Remove</button>
             <img class="productImg" src="images/PC2_$400.png"/>
             <figcaption class="caption">PC2</figcaption>
@@ -137,6 +147,7 @@
             <div class="hideText"><span>$300</span></div>
             <img class="cart" src="images/cart.png"/>
 				    <button class="addButton" onclick="addToCart('PC3')">Add</button>
+            <div class="hideOutOfStock"></div>
 				    <button class="removeButton" onclick="removeFromCart('PC3')">Remove</button>
             <img class="productImg" src="images/PC3_$300.png"/>
             <figcaption class="caption">PC3</figcaption>
@@ -146,6 +157,7 @@
             <div class="hideText"><span>$100</span></div>
             <img class="cart" src="images/cart.png"/>
 				    <button class="addButton" onclick="addToCart('Tent')">Add</button>
+            <div class="hideOutOfStock"></div>
 				    <button class="removeButton" onclick="removeFromCart('Tent')">Remove</button>
             <img class="productImg" src="images/Tent_$100.png"/>
             <figcaption class="caption">Tent</figcaption>
@@ -155,7 +167,7 @@
         </div>
       </div>
 
-      <div id="footer">Contact Information
+      <div id="footer"><span id="contactInfo">Contact Information </span><span id="inactiveTimeDisplay"></span>
       </div>
      </div>
 
