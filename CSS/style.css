@@ -161,7 +161,7 @@ li.product {
 .addButton{
 	position:relative;
 	font-size: 12px ;
-	top:-40px;
+	top:-45px;
 	background-color: #57d6c7;
 	font-weight: bold;
 	color: white;
@@ -172,7 +172,7 @@ li.product {
 .outOfStock{
 	position:relative;
 	font-size: 12px ;
-	top:-40px;
+	top:-50px;
 	background-color: #57d6c7;
 	font-weight: bold;
 	color: white;
@@ -191,7 +191,7 @@ li.product {
 .removeButton{
 	position:relative;
 	font-size: 12px ;
-	top:-40px;
+	top:-45px;
 	background-color: #F36C8C;
 	font-weight: bold;
 	color: white;
@@ -209,7 +209,6 @@ li.product {
 
 .product:hover .outOfStock{
 	visibility: visible;
-	content: "This product is out of stock.";
 }
 
 .product:hover .removeButton{

@@ -65,14 +65,63 @@ function init(){
     console.log(obj);
   }
 
-  var removeButtons = document.getElementsByClassName("removeButton");
+  for(var i = 0; i < productsArray.length; i++){
 
-  for(var i = 0; i < removeButtons.length; i++){
-    removeButtons[i].removeClass("removeButton");
-    removeButtons[i].addClass("hideRemoveButton");
+    var removeButton = document.getElementById("remove_" + productsArray[i]);
+    removeClass(removeButton, "removeButton");
+    addClass(removeButton, "hideRemoveButton");
+
   }
 
   document.getElementById("cartTotal").innerText = "Cart ($0)";
+};
+
+function hideAddButton(name){
+  var addButton = document.getElementById("add_" + name);
+  removeClass(addButton, "addButton");
+  addClass(addButton, "hideAddButton");
+};
+
+function showAddButton(name){
+  var addButton = document.getElementById("add_" + name);
+  removeClass(addButton, "hideAddButton");
+  addClass(addButton, "addButton");
+};
+
+function hideRemoveButton(name){
+  var removeButton = document.getElementById("remove_" + name);
+  removeClass(removeButton, "removeButton");
+  addClass(removeButton, "hideRemoveButton");
+};
+
+function showRemoveButton(name){
+  var removeButton = document.getElementById("remove_" + name);
+  removeClass(removeButton, "hideRemoveButton");
+  addClass(removeButton, "removeButton");
+};
+
+function removeClass( element, classname ) {
+    console.log(classname);
+    var cn = element.className;
+    console.log(cn);
+    cn = cn.replace( classname, '' );
+    console.log(cn);
+    element.className = cn;
+    console.log(cn);
+    console.log(element.className);
+};
+
+function addClass( element, classname) {
+    var cn = element.className;
+    //test for existance
+    if( cn.indexOf( classname ) != -1 ) {
+        return;
+    }
+    //add a space if the element already has class
+    if( cn != '' ) {
+        classname = ' '+classname;
+    }
+    element.className = cn+classname;
 };
 
 function updateCartTotal(){
@@ -83,35 +132,6 @@ function updateCartTotal(){
   }
 
   document.getElementById("cartTotal").innerText = "Cart ($" + total + ")";
-};
-
-function updateAddButton(name){
-  if(products[name].quantity === 0){
-    document.getElementById("add_" + name).removeClass("addButton");
-    document.getElementById("add_" + name).addClass("hideAddButton");
-    document.getElementById("stock_" + name).removeClass("hideOutOfStock");
-    document.getElementById("stock_" + name).addClass("outOfStock");
-  }
-
-  if(cart[name] && cart[name] > 0){
-    document.getElementById("remove_" + name).removeClass("hideRemoveButton");
-    document.getElementById("remove_" + name).addClass("removeButton");
-  }
-};
-
-function updateRemoveButton(name){
-  if(products[name].quantity > 0){
-    document.getElementById("add_" + name).removeClass("hideAddButton");
-    document.getElementById("add_" + name).addClass("addButton");
-    document.getElementById("stock_" + name).removeClass("outOfStock");
-    document.getElementById("stock_" + name).addClass("hideOutOfStock");
-  }
-
-  if(!cart[name] ||  cart[name] == 0){
-    document.getElementById("remove_" + name).removeClass("removeButton");
-    document.getElementById("remove_" + name).addClass("hideRemoveButton");
-  }
-
 };
 
 /**
@@ -152,12 +172,14 @@ function addItem(name){
     var numProduct = cart[name];
     if(numProduct == null){
       cart[name] = 1;
+      showRemoveButton(name);
     }else{
       cart[name] = cart[name] + 1;
+      console.log(cart[name]);
+      if(cart[name] === 5){
+        hideAddButton(name);
+      }
     }
-
-    updateAddButton(name);
-    removeAddButton(name);
 
 };
 
@@ -175,8 +197,10 @@ function removeItem(name){
     alert("Product does not exist in the cart.");
   }else if(numProduct == 1){
     delete cart[name];
+    hideRemoveButton(name);
   }else{
     cart[name] = cart[name] - 1;
+    showAddButton(name);
   }
 };
 
