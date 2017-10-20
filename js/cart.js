@@ -81,12 +81,20 @@ function hideAddButton(name){
   var addButton = document.getElementById("add_" + name);
   removeClass(addButton, "addButton");
   addClass(addButton, "hideAddButton");
+  var outofstock = document.getElementById("stock_" + name);
+  outofstock.innerText = "Out of stock!";
+  removeClass(outofstock, "hideOutOfStock");
+  addClass(outofstock, "outOfStock");
 };
 
 function showAddButton(name){
   var addButton = document.getElementById("add_" + name);
   removeClass(addButton, "hideAddButton");
   addClass(addButton, "addButton");
+  var outofstock = document.getElementById("stock_" + name);
+  outofstock.innerText = "";
+  removeClass(outofstock, "outOfStock");
+  addClass(outofstock, "hideOutOfStock");
 };
 
 function hideRemoveButton(name){

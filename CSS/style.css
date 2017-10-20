@@ -88,6 +88,7 @@ body {
     padding: 20px;
     border: 1px solid #888;
     width: 50%;
+		overflow: auto;
 }
 
 /* The Close Button */
@@ -158,14 +159,14 @@ li.product {
     display: inline-block;
     text-align: center;
     width: 120px;
-		height: 120px;
+		height: 130px;
 		padding: 10px;
 		margin: 20px;
 }
 
 .productImg {
 		/*position: absolute;*/
-		margin-top: -100px;
+		margin-top: -110px;
     width: 100px;
     height: 100px;
 }
@@ -219,7 +220,7 @@ li.product {
 .outOfStock{
 	position:relative;
 	font-size: 12px ;
-	top:-50px;
+	top: -55px;
 	background-color: #57d6c7;
 	font-weight: bold;
 	color: white;
@@ -258,6 +259,9 @@ li.product {
 	visibility: visible;
 }
 
+
+
+
 .product:hover .removeButton{
 	visibility: visible;
 }
@@ -275,6 +279,6 @@ li.product {
   position: absolute;
   right: 15px;
   left: 15px;
-  padding: 1rem;
+  padding: 0.5rem;
   background-color: #b3ffff;
 }
