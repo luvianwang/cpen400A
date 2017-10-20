@@ -24,9 +24,21 @@
         <img id="logo" src="images/welBanner.png" style="height:140px;width:600px"></img>
 
         <!--<p id="showCart" onclick="showCart()">Show Cart</p>-->
-        <div id="showCart" onclick="showCart()"><span><button id="cartTotal" class="button1">Cart ($0)</button><img id="logo" src="images/showCart.png" style="height:60px;width:60px"></img></span></div>
+        <div id="showCart" onclick="showCart()">
+          <button id="cartTotal">Cart ($0)</button>
+        </div>
       </div>
               <!-- <p id="showCart">Show Cart</p> -->
+
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2 style="padding-left:50px"> Cart Items </h2>
+		      <hr>
+		      <table id="cartItems" style ="width:600px"> </table>
+		      <button id = "checkOut">Check Out</button>
+        </div>
+      </div>
 
       <div id="mainContent">
         <div id="navigationMenu">

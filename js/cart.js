@@ -50,6 +50,7 @@ var inactiveTime = setInterval(alertUser, 1000);
 var counter = 0;
 var cart = [];
 var products = [];
+var total = 0;
 //init();
 
 /**
@@ -125,11 +126,12 @@ function addClass( element, classname) {
 };
 
 function updateCartTotal(){
-  var total = 0;
+  total = 0;
   for(var key in cart){
     let quantity = cart[key];
     total = total + products[key].product.computeNetPrice(quantity);
   }
+  updateCart();
 
   document.getElementById("cartTotal").innerText = "Cart ($" + total + ")";
 };
@@ -181,6 +183,7 @@ function addItem(name){
       }
     }
 
+    updateCart();
 };
 
 /**
@@ -202,6 +205,8 @@ function removeItem(name){
     cart[name] = cart[name] - 1;
     showAddButton(name);
   }
+
+  updateCart();
 };
 
 /**
@@ -241,12 +246,81 @@ function removeFromCart(productName){
 *in the cart presently.
 */
 function showCart(){
-  var cartItems = printCart();
-  if(cartItems === ""){
-    alert("No items in cart");
-  }else{
-    //console.log("In show cart + cartitems:" + cartItems);
-    alert(cartItems);
-  }
+  // var cartItems = printCart();
+  // if(cartItems === ""){
+  //   alert("No items in cart");
+  // }else{
+  //   //console.log("In show cart + cartitems:" + cartItems);
+  //   alert(cartItems);
+  // }
   resetTimer();
+
+  document.getElementById("cartTotal").innerText = "Cart ($0)";
+  // Get the modal
+  var modal = document.getElementById('myModal');
+  // Get the button that opens the modal
+  var btn = document.getElementById("cartTotal");
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+  // When the user clicks on the button, open the modal
+  modal.style.display = "block";
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+  }
+
+  updateCart();
+  updateCartTotal();
+};
+
+function keyEvent(e) {
+  var modal = document.getElementById('myModal');
+	if(e.keyCode == 27){
+		modal.style.display = "none";
+	}
+}
+window.addEventListener("keydown", keyEvent, false);
+
+
+function updateCart(){
+  var cartTable = document.getElementById("cartItems");
+  cartTable.innerHTML = "";
+
+  var rowT = cartTable.insertRow(0);
+  var c1 = rowT.insertCell(0);
+  var c2 = rowT.insertCell(1);
+  var c3 = rowT.insertCell(2);
+  c1.innerHTML = "<h4>Total: </h4>";
+  c3.innerHTML = total;
+  for (var key in cart) {
+        var row = cartTable.insertRow(0);
+	    	var c1 = row.insertCell(0);
+	    	var c2 = row.insertCell(1);
+	    	var c3 = row.insertCell(2);
+
+	    	c1.innerHTML = key;
+	    	c2.innerHTML = cart[key];
+	    	quantity = cart[key];
+	    	price = products[key].product.computeNetPrice(quantity);
+        console.log("p:"+price);
+        c2.innerHTML += '       '
+        c2.innerHTML += '<button onclick=\'addToCart("'+ key +'")\'>+</button>'
+        c2.innerHTML += '    '
+        c2.innerHTML += '<button onclick=\'removeFromCart("'+ key +'")\'>-</button>'
+	    	c3.innerHTML = price;
+
+	}
+  var row1 = cartTable.insertRow(0);
+	var c1 = row1.insertCell(0);
+	var c2 = row1.insertCell(1);
+	var c3 = row1.insertCell(2);
+	c1.innerHTML = "<h4>Product Name</h4>";
+	c2.innerHTML = "<h4>Quantity</h4>";
+	c3.innerHTML = "<h4>Price</h4>";
 };
