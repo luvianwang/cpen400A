@@ -1,0 +1,8 @@
+Task 1		2
+Task 2		2
+Task 3A		3
+Task 3B		2.5
+Total		9.5
+
+Comments:
+Incorrect use of "id", should be using "class"
