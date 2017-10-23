@@ -13,9 +13,10 @@ var productsArray = [
   "PC3",
   "Tent"
 ];
-
+//Price array with prices of all product items.
 var priceArray = [ 10, 5, 20, 30, 50, 20, 40, 20, 350, 400, 300, 100];
 
+//Image url array with url's of all the product images.
 var urlArray = [
   "images/Box1_$10.png",
   "images/Box2_$5.png",
@@ -31,19 +32,30 @@ var urlArray = [
   "images/Tent_$100.png"
 ];
 
+/**
+*Creates a constructor function Product.
+*initializes the properties name, price and imageUrl for constructor function
+*/
 var Product = function(name, price, imageUrl){
   this.name = name;
   this.price = price;
   this.imageUrl = imageUrl;
 };
 
+/**
+*Creates a prototype function computeNetPrice.
+*@Calculates total price according to quantity
+*/
 Product.prototype.computeNetPrice = function(quantity){
   return this.price*quantity;
 };
 
+/**
 var box1 = new Product('Box1', 10, 'images/products/Box1_$10.png');
 console.log( box1.name );
 console.log( box1.computeNetPrice(5) );
+**/
+
 
 //Global variables
 var inactiveTime = setInterval(alertUser, 1000);
@@ -77,6 +89,10 @@ function init(){
   document.getElementById("cartTotal").innerText = "Cart ($0)";
 };
 
+/**
+*Creates a function to hide add button when the product is out of stock.
+* Displays a friendly message to notify user.
+*/
 function hideAddButton(name){
   var addButton = document.getElementById("add_" + name);
   removeClass(addButton, "addButton");
@@ -87,6 +103,10 @@ function hideAddButton(name){
   addClass(outofstock, "outOfStock");
 };
 
+/**
+*Creates a function to display add button when the product quantity is restocked.
+*removes message out of stock when product quanity restocks
+*/
 function showAddButton(name){
   var addButton = document.getElementById("add_" + name);
   removeClass(addButton, "hideAddButton");
@@ -97,12 +117,20 @@ function showAddButton(name){
   addClass(outofstock, "hideOutOfStock");
 };
 
+/**
+*Creates a function to hide remove button.
+*remove button is hidden when the product is not in the cart.
+*/
 function hideRemoveButton(name){
   var removeButton = document.getElementById("remove_" + name);
   removeClass(removeButton, "removeButton");
   addClass(removeButton, "hideRemoveButton");
 };
 
+/**
+*Creates a function to show remove button.
+*remove button is displayes when the product is availble in the cart.
+*/
 function showRemoveButton(name){
   var removeButton = document.getElementById("remove_" + name);
   removeClass(removeButton, "hideRemoveButton");
@@ -133,6 +161,12 @@ function addClass( element, classname) {
     element.className = cn+classname;
 };
 
+
+/**
+*Updates the total price of the products in the cart and calls the function 
+*computeNetPrice to calculate total price of the products.
+*This function is called whenever any product is added or removed from the cart.
+*/
 function updateCartTotal(){
   total = 0;
   for(var key in cart){
@@ -287,15 +321,25 @@ function showCart(){
   updateCartTotal();
 };
 
+/**
+*Creates a function keyEvent.
+*When a user presses esc key, the modal hides.
+*/
 function keyEvent(e) {
   var modal = document.getElementById('myModal');
 	if(e.keyCode == 27){
 		modal.style.display = "none";
 	}
-}
-window.addEventListener("keydown", keyEvent, false);
+
+	
+	window.addEventListener("keydown", keyEvent, false);
 
 
+/**
+*Creates updateCart function, and displays the modal with product name, quantity
+* and total price.
+* Allows user to modify quantity on the modal itself.
+*/
 function updateCart(){
   var cartTable = document.getElementById("cartItems");
   cartTable.innerHTML = "";
