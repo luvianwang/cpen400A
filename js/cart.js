@@ -163,7 +163,7 @@ function addClass( element, classname) {
 
 
 /**
-*Updates the total price of the products in the cart and calls the function 
+*Updates the total price of the products in the cart and calls the function
 *computeNetPrice to calculate total price of the products.
 *This function is called whenever any product is added or removed from the cart.
 */
@@ -330,8 +330,9 @@ function keyEvent(e) {
 	if(e.keyCode == 27){
 		modal.style.display = "none";
 	}
+}
 
-	
+
 	window.addEventListener("keydown", keyEvent, false);
 
 
