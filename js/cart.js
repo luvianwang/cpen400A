@@ -137,6 +137,9 @@ function showRemoveButton(name){
   addClass(removeButton, "removeButton");
 };
 
+/**
+Remove class from html element.
+*/
 function removeClass( element, classname ) {
     console.log(classname);
     var cn = element.className;
@@ -148,6 +151,9 @@ function removeClass( element, classname ) {
     console.log(element.className);
 };
 
+/**
+Add given class to html element.
+*/
 function addClass( element, classname) {
     var cn = element.className;
     //test for existance
