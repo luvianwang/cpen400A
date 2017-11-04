@@ -66,11 +66,14 @@ var products = {};
 var total = 0;
 var errorTimeout = 0;
 var errorLimit = 10;
+var checkoutTimeout = 0;
+var checkoutLimit = 30;
 //init();
 
 
 function initializeProducts(response){
     console.log(response);
+    errorTimeout = 0;
     for(var product in response){
         console.log(product);
         console.log(response[product]);
@@ -82,9 +85,13 @@ function initializeProducts(response){
 };
 
 function handleRequestError(error){
+  console.log("ERROR" + error);
   errorTimeout = errorTimeout + 1;
   if(errorTimeout < errorLimit){
+    console.log("Making request again");
     makeRequest(initializeProducts, handleRequestError);
+  }else{
+    errorTimeout = 0;
   }
 };
 
@@ -422,40 +429,73 @@ var ajaxGet = function(url, successCallback, errorCallback) {
 	  }
       else if (this.readyState == 4) {
 		//console.log(this.readyState + " " + this.status + " " + "inside error");
-		errorCallback("readyState" + this.readyState);
+		errorCallback(this.status);
       }
     };
 
 	xhttp.onerror = function () {
-        errorCallback(this.response);
+        errorCallback(this.status);
     };
 
+	xhttp.timeout = 2000;
     xhttp.open("GET", url, true);
     xhttp.send();
 };
 
-/*
 
-ajaxGet("https://cpen400a-bookstore.herokuapp.com/products",
-    function(response){
-        // do something with the response
-        console.log(response);
-    },
-    function(error){
-        // do something with the error
-        console.log(error);
-
+function checkOutSuccess(response){
+  console.log("Inside check out success");
+  checkoutTimeout = 0;
+  for(var key in cart){
+    console.log(products[key].price);
+    console.log(response[key].price);
+    if(products[key].price != response[key].price){
+      var oldprice = products[key].price;
+      var newprice = response[key].price;
+      products[key].price =  newprice;
+      alert("The price for product " + key + " has changed from $" +
+            oldprice + " to $" + newprice);
     }
-);
 
+    console.log(response[key].quantity);
+    console.log(cart[key]);
+    if(cart[key] > response[key].quantity){
+        if(response[key].quantity === 0){
+            alert("Product " +  key + " is out of stock!");
+            delete cart[key];
+        }else {
+            var newquantity = response[key].quantity;
+            alert("The available quanity for " + key + " is " + newquantity);
+            cart[key] = response[key].quanity;
+        }
+    }
+  }
 
+    updateCart();
+    updateCartTotal();
 
+};
 
+function checkOutFailure(response){
+    checkoutTimeout = checkoutTimeout + 1;
+    if(checkoutTimeout < checkoutLimit){
+        console.log("Making request again");
+        makeRequest(checkOutSuccess, checkOutFailure);
+    }else{
+        errorTimeout = 0;
+    }
+};
 
-*/
+function checkOutRequest(checkoutSuccess, checkoutFailure ){
+    ajaxGet("https://cpen400a-bookstore.herokuapp.com/products", checkoutSuccess, checkoutFailure);
 
+};
 
-
+function checkOut(){
+    resetTimer();
+    console.log("Inside check out");
+    checkOutRequest(checkOutSuccess, checkOutFailure);
+};
 
 
 
