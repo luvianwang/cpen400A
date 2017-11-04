@@ -61,13 +61,14 @@ console.log( box1.computeNetPrice(5) );
 //Global variables
 var inactiveTime = setInterval(alertUser, 1000);
 var counter = 0;
-var cart = [];
+var cart = {};
 var products = {};
 var total = 0;
 var errorTimeout = 0;
 var errorLimit = 10;
 var checkoutTimeout = 0;
 var checkoutLimit = 30;
+
 //init();
 
 
@@ -81,7 +82,10 @@ function initializeProducts(response){
         obj = new Product(response[product].name, response[product].price, response[product].quantity, response[product].imageUrl);
         console.log(obj);
         products[product] = obj;
+        document.getElementById("price_" + product).innerText = "$" + response[product].price;
     }
+
+    updateCartTotal();
 };
 
 function handleRequestError(error){
@@ -120,7 +124,6 @@ function init(){
 
   }
 
-  document.getElementById("cartTotal").innerText = "Cart ($0)";
 };
 
 function makeRequest(successCallback, errorCallback){
@@ -214,7 +217,7 @@ function updateCartTotal(){
     let quantity = cart[key];
     total = total + products[key].computeNetPrice(quantity);
   }
-  updateCart();
+  //updateCart();
 
   document.getElementById("cartTotal").innerText = "Cart ($" + total + ")";
 };
@@ -382,6 +385,7 @@ function keyEvent(e) {
 * Allows user to modify quantity on the modal itself.
 */
 function updateCart(){
+  updateCartTotal();
   var cartTable = document.getElementById("cartItems");
   cartTable.innerHTML = "";
 
@@ -466,7 +470,7 @@ function checkOutSuccess(response){
         }else {
             var newquantity = response[key].quantity;
             alert("The available quanity for " + key + " is " + newquantity);
-            cart[key] = response[key].quanity;
+            cart[key] = newquantity;
         }
     }
   }
