@@ -434,6 +434,8 @@ var ajaxGet = function(url, successCallback, errorCallback) {
     xhttp.send();
 };
 
+/*
+
 ajaxGet("https://cpen400a-bookstore.herokuapp.com/products",
     function(response){
         // do something with the response
@@ -450,7 +452,7 @@ ajaxGet("https://cpen400a-bookstore.herokuapp.com/products",
 
 
 
-
+*/
 
 
 
