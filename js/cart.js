@@ -36,10 +36,11 @@ var urlArray = [
 *Creates a constructor function Product.
 *initializes the properties name, price and imageUrl for constructor function
 */
-var Product = function(name, price, imageUrl){
+var Product = function(name, price, quantity, imageUrl){
   this.name = name;
   this.price = price;
   this.imageUrl = imageUrl;
+  this.quantity = quantity;
 };
 
 /**
@@ -61,22 +62,48 @@ console.log( box1.computeNetPrice(5) );
 var inactiveTime = setInterval(alertUser, 1000);
 var counter = 0;
 var cart = [];
-var products = [];
+var products = {};
 var total = 0;
+var errorTimeout = 0;
+var errorLimit = 10;
 //init();
+
+
+function initializeProducts(response){
+    console.log(response);
+    for(var product in response){
+        console.log(product);
+        console.log(response[product]);
+        var obj = {};
+        obj = new Product(response[product].name, response[product].price, response[product].quantity, response[product].imageUrl);
+        console.log(obj);
+        products[product] = obj;
+    }
+};
+
+function handleRequestError(error){
+  errorTimeout = errorTimeout + 1;
+  if(errorTimeout < errorLimit){
+    makeRequest(initializeProducts, handleRequestError);
+  }
+};
 
 /**
  * Initializes the global variable products.
  *@modifies: 'product' variable with all products with quantity '5' by default
+ *
  */
 function init(){
-  for(var i = 0; i < productsArray.length; i++){
-    var obj = {};
-    obj.product = new Product(productsArray[i], priceArray[i], urlArray[i]);
-    obj.quantity = 5;
-    products[productsArray[i]] = obj;
-    console.log(obj);
-  }
+  // for(var i = 0; i < productsArray.length; i++){
+  //   var obj = {};
+  //   obj.product = new Product(productsArray[i], priceArray[i], urlArray[i]);
+  //   obj.quantity = 5;
+  //   products[productsArray[i]] = obj;
+  //   console.log(obj);
+  // }
+    //
+  makeRequest(initializeProducts, handleRequestError);
+  console.log("make request");
 
   for(var i = 0; i < productsArray.length; i++){
 
@@ -87,6 +114,12 @@ function init(){
   }
 
   document.getElementById("cartTotal").innerText = "Cart ($0)";
+};
+
+function makeRequest(successCallback, errorCallback){
+
+    ajaxGet("https://cpen400a-bookstore.herokuapp.com/products", successCallback, errorCallback);
+
 };
 
 /**
@@ -141,14 +174,9 @@ function showRemoveButton(name){
 Remove class from html element.
 */
 function removeClass( element, classname ) {
-    console.log(classname);
     var cn = element.className;
-    console.log(cn);
     cn = cn.replace( classname, '' );
-    console.log(cn);
     element.className = cn;
-    console.log(cn);
-    console.log(element.className);
 };
 
 /**
@@ -177,7 +205,7 @@ function updateCartTotal(){
   total = 0;
   for(var key in cart){
     let quantity = cart[key];
-    total = total + products[key].product.computeNetPrice(quantity);
+    total = total + products[key].computeNetPrice(quantity);
   }
   updateCart();
 
@@ -225,8 +253,7 @@ function addItem(name){
       showRemoveButton(name);
     }else{
       cart[name] = cart[name] + 1;
-      console.log(cart[name]);
-      if(cart[name] === 5){
+      if(products[name].quantity === 0){
         hideAddButton(name);
       }
     }
@@ -240,7 +267,7 @@ function addItem(name){
 *otherwise decrements quantity by 1
 */
 function removeItem(name){
-  if(products[name].quantity < 5){
+  if(cart[name] != null && cart[name] > 0){
     products[name].quantity = products[name].quantity + 1;
   }
   var numProduct = cart[name];
@@ -366,8 +393,7 @@ function updateCart(){
 	    	c1.innerHTML = key;
 	    	c2.innerHTML = cart[key];
 	    	quantity = cart[key];
-	    	price = products[key].product.computeNetPrice(quantity);
-        console.log("p:"+price);
+	    	price = products[key].computeNetPrice(quantity);
         c2.innerHTML += '       '
         c2.innerHTML += '<button onclick=\'addToCart("'+ key +'")\'>+</button>'
         c2.innerHTML += '    '
@@ -385,37 +411,40 @@ function updateCart(){
 };
 
 
-var ajaxGet = function ajaxGet(url, successCallback, errorCallback) {
+var ajaxGet = function(url, successCallback, errorCallback) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState == 4 && this.status == 200) {
        // Typical action to be performed when the document is ready:
 	//console.log(this.readyState + " " + this.status);
-	var response = successCallback(this.responseText);
-	console.log(response);
-	var parseResponse = JSON.parse(response);
-	console.log(parseResponse);
-	}
-	else if (this.readyState == 4) {
+	    var parseResponse = JSON.parse(this.responseText);
+	    successCallback(parseResponse);
+	  }
+      else if (this.readyState == 4) {
 		//console.log(this.readyState + " " + this.status + " " + "inside error");
-		errorCallback(this.statusText);
-		}	
+		errorCallback("readyState" + this.readyState);
+      }
+    };
+
+	xhttp.onerror = function () {
+        errorCallback(this.response);
+    };
+
+    xhttp.open("GET", url, true);
+    xhttp.send();
 };
-xhttp.open("GET", url, true);
-xhttp.send();
-}
 
 ajaxGet("https://cpen400a-bookstore.herokuapp.com/products",
-	function(response){
-		alert("success");
-		return response;
-		},
-	function(error){
-		alert("error");
-		return error;
-	}
-	);
+    function(response){
+        // do something with the response
+        console.log(response);
+    },
+    function(error){
+        // do something with the error
+        console.log(error);
 
+    }
+);
 
 
 
