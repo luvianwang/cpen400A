@@ -69,9 +69,12 @@ var errorLimit = 10;
 var checkoutTimeout = 0;
 var checkoutLimit = 30;
 
-//init();
 
-
+/**
+ * Success callback function to initialize products/
+ * @param response from the request made
+ * @modifies: 'products' variable with all products
+ */
 function initializeProducts(response){
     console.log(response);
     errorTimeout = 0;
@@ -101,20 +104,10 @@ function handleRequestError(error){
 
 /**
  * Initializes the global variable products.
- *@modifies: 'product' variable with all products with quantity '5' by default
  *
  */
 function init(){
-  // for(var i = 0; i < productsArray.length; i++){
-  //   var obj = {};
-  //   obj.product = new Product(productsArray[i], priceArray[i], urlArray[i]);
-  //   obj.quantity = 5;
-  //   products[productsArray[i]] = obj;
-  //   console.log(obj);
-  // }
-    //
   makeRequest(initializeProducts, handleRequestError);
-  console.log("make request");
 
   for(var i = 0; i < productsArray.length; i++){
 
@@ -126,6 +119,11 @@ function init(){
 
 };
 
+/**
+ * Make request to retrieve product list
+ * @param successCallback the sucesscallback on success
+ * @param errorCallback the errorcallback on error
+ */
 function makeRequest(successCallback, errorCallback){
 
     ajaxGet("https://cpen400a-bookstore.herokuapp.com/products", successCallback, errorCallback);
@@ -376,7 +374,7 @@ function keyEvent(e) {
 }
 
 
-	window.addEventListener("keydown", keyEvent, false);
+window.addEventListener("keydown", keyEvent, false);
 
 
 /**
@@ -421,7 +419,12 @@ function updateCart(){
 	c3.innerHTML = "<h4>Price</h4>";
 };
 
-
+/**
+ * The function to make an ajax call and handle success, error respectively.
+ * @param url the url to which the request is made
+ * @param successCallback callback function on success
+ * @param errorCallback callback function on error
+ */
 var ajaxGet = function(url, successCallback, errorCallback) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
@@ -446,7 +449,10 @@ var ajaxGet = function(url, successCallback, errorCallback) {
     xhttp.send();
 };
 
-
+/**
+ * Success callback function for request made on checkout
+ * @param response retrieved from request
+ */
 function checkOutSuccess(response){
   console.log("Inside check out success");
   checkoutTimeout = 0;
@@ -480,6 +486,10 @@ function checkOutSuccess(response){
 
 };
 
+/**
+ * Error callback function for request made on checkout
+ * @param response retrieved from request
+ */
 function checkOutFailure(response){
     checkoutTimeout = checkoutTimeout + 1;
     if(checkoutTimeout < checkoutLimit){
@@ -490,15 +500,13 @@ function checkOutFailure(response){
     }
 };
 
-function checkOutRequest(checkoutSuccess, checkoutFailure ){
-    ajaxGet("https://cpen400a-bookstore.herokuapp.com/products", checkoutSuccess, checkoutFailure);
-
-};
-
+/**
+ * Function called on clicking check out to make sure the products in the cart are valid
+ */
 function checkOut(){
     resetTimer();
     console.log("Inside check out");
-    checkOutRequest(checkOutSuccess, checkOutFailure);
+    makeRequest(checkOutSuccess, checkOutFailure);
 };
 
 
