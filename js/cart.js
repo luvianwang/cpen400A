@@ -76,6 +76,7 @@ var checkoutLimit = 30;
  * @modifies: 'products' variable with all products
  */
 function initializeProducts(response){
+    var response = JSON.parse(response);
     console.log(response);
     errorTimeout = 0;
     for(var product in response){
@@ -431,8 +432,7 @@ var ajaxGet = function(url, successCallback, errorCallback) {
         if (this.readyState == 4 && this.status == 200) {
        // Typical action to be performed when the document is ready:
 	//console.log(this.readyState + " " + this.status);
-	    var parseResponse = JSON.parse(this.responseText);
-	    successCallback(parseResponse);
+	    successCallback(this.responseText);
 	  }
       else if (this.readyState == 4) {
 		//console.log(this.readyState + " " + this.status + " " + "inside error");
@@ -454,6 +454,7 @@ var ajaxGet = function(url, successCallback, errorCallback) {
  * @param response retrieved from request
  */
 function checkOutSuccess(response){
+    var response = JSON.parse(response);
   console.log("Inside check out success");
   checkoutTimeout = 0;
   for(var key in cart){
