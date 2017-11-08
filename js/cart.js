@@ -71,7 +71,7 @@ var checkoutLimit = 30;
 
 
 /**
- * Success callback function to initialize products/
+ * Success callback function to initialize products
  * @param response from the request made
  * @modifies: 'products' variable with all products
  */
@@ -92,6 +92,10 @@ function initializeProducts(response){
     updateCartTotal();
 };
 
+/**
+ * Error callback function on request failure
+ * @param error retrieved from request
+ */
 function handleRequestError(error){
   console.log("ERROR" + error);
   errorTimeout = errorTimeout + 1;
