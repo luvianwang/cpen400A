@@ -223,6 +223,8 @@ function updateCartTotal(){
   //updateCart();
 
   document.getElementById("cartTotal").innerText = "Cart ($" + total + ")";
+
+  return total;
 };
 
 /**
@@ -461,6 +463,7 @@ function checkOutSuccess(response){
     var response = JSON.parse(response);
   console.log("Inside check out success");
   checkoutTimeout = 0;
+  var isCartModified = false;
   for(var key in cart){
     console.log(products[key].price);
     console.log(response[key].price);
@@ -470,6 +473,7 @@ function checkOutSuccess(response){
       products[key].price =  newprice;
       alert("The price for product " + key + " has changed from $" +
             oldprice + " to $" + newprice);
+      isCartModified = true;
     }
 
     console.log(response[key].quantity);
@@ -483,13 +487,20 @@ function checkOutSuccess(response){
             alert("The available quanity for " + key + " is " + newquantity);
             cart[key] = newquantity;
         }
+
+        isCartModified = true;
     }
   }
 
-  alert("The products price and availability have been confirmed.")
-
     updateCart();
-    updateCartTotal();
+    var total = updateCartTotal();
+
+    if(isCartModified){
+        alert("The new total is $" + total);
+    }
+
+    alert("The products price and availability have been confirmed.")
+
 
 };
 
