@@ -486,6 +486,8 @@ function checkOutSuccess(response){
     }
   }
 
+  alert("The products price and availability have been confirmed.")
+
     updateCart();
     updateCartTotal();
 
