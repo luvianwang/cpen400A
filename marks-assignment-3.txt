@@ -1,0 +1,14 @@
+Task 1A		2
+Task 1B		2
+Task 2		1
+Task 3		3
+Task 4		2
+Task 5		4
+Code Quality		2.5
+Scalability		2
+Bonus		1
+Total		19.5
+
+Comments:
+ProductList HTML directly entered in.
+Embedding inline HTML string in JS functions is usually considered bad practice.
