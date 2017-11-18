@@ -1,4 +1,4 @@
-//Product array with names of all product items.
+
 var productsArray = [
   "Box1",
   "Box2",
@@ -526,9 +526,3 @@ function checkOut(){
     console.log("Inside check out");
     makeRequest(checkOutSuccess, checkOutFailure);
 };
-
-
-
-
-
-
