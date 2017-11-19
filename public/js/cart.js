@@ -77,14 +77,12 @@ var checkoutLimit = 30;
  */
 function initializeProducts(response){
     var response = JSON.parse(response);
-    console.log(response);
     errorTimeout = 0;
     for(var product in response){
         console.log(product);
         console.log(response[product]);
         var obj = {};
         obj = new Product(response[product].name, response[product].price, response[product].quantity, response[product].imageUrl);
-        console.log(obj);
         products[product] = obj;
         document.getElementById("price_" + product).innerText = "$" + response[product].price;
     }
@@ -131,7 +129,7 @@ function init(){
  */
 function makeRequest(successCallback, errorCallback){
 
-    ajaxGet("https://cpen400a-bookstore.herokuapp.com/products", successCallback, errorCallback);
+    ajaxGet("/products", successCallback, errorCallback);
 
 };
 
@@ -437,8 +435,9 @@ var ajaxGet = function(url, successCallback, errorCallback) {
 	xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
        // Typical action to be performed when the document is ready:
-	//console.log(this.readyState + " " + this.status);
-	    successCallback(this.responseText);
+	console.log(this.readyState + " " + this.status);
+console.log(xhttp.responseText);
+	    successCallback(xhttp.responseText);
 	  }
       else if (this.readyState == 4) {
 		//console.log(this.readyState + " " + this.status + " " + "inside error");

@@ -1,0 +1,24 @@
+{
+  "name": "cpen400a_wang_kamath",
+  "version": "1.0.0",
+  "description": "",
+  "main": "node app.js",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongodb": "^2.2.33"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RanjithaJS/cpen400A_Wang_Kamath.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RanjithaJS/cpen400A_Wang_Kamath/issues"
+  },
+  "homepage": "https://github.com/RanjithaJS/cpen400A_Wang_Kamath#readme"
+}
