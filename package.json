@@ -4,7 +4,7 @@
   "description": "A sample Node.js app using Express 4",
   "main": "js/cart.js",
   "scripts": {
-    "start": "node js/server.js; node js/db.js;"
+    "start": "node js/server.js"
   },
   "dependencies": {
     "express": "^4.13.3",

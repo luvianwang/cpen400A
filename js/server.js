@@ -67,14 +67,8 @@ function getRandomInt(min, max) {
 
 app.post('/checkout?', function(request, response){
 
-  response.header("Access-Control-Allow-Origin", "*");
-  response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  console.log("Query Parameters");
-  console.log(request.query.cart);
-  console.log(request.query.total);
-
   var cart = request.query.cart;
-  var total = request.query.total;
+  var total = parseInt(request.query.total);
 
   MongoClient.connect('mongodb://localhost:27017/test', function(err, db) {
   if (err) throw err;
@@ -82,6 +76,11 @@ app.post('/checkout?', function(request, response){
   db.collection("orders").insertOne(order, function(err, res) {
     if (err) throw err;
     console.log("1 document inserted");
+
+    var jsonResponse = {};
+
+    jsonResponse.result  = "Success";
+    response.send(jsonResponse);
     db.close();
   });
   });
