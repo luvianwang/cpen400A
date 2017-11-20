@@ -36,8 +36,25 @@ var initApp = function (db) {
       //console.log("1");
             // get the products collection
             var collection = db.collection('products');
+            var filters = {};
+            //request.query.minPrice=20;
+            if (!isNaN(request.query.minPrice)) {
+              filters.price = filters.price || {};
+                filters.price.$gte = request.query.minPrice;
+            } else if (request.query.minPrice != undefined) {
+                sendResponse(response, 400, "Invalid minPrice.");
+                return;
+            }
 
-            collection.find({}).toArray(function(error, result) {
+            //request.query.maxPrice=50;
+            if (!isNaN(request.query.maxPrice)) {
+              filters.price = filters.price || {};
+                filters.price.$lte = request.query.maxPrice;
+            } else if (request.query.maxPrice != undefined) {
+                sendResponse(response, 400, "Invalid maxPrice.");
+                return;
+            }
+            collection.find(filters).toArray(function(error, result) {
               if (error) {
                console.log("Error: could not retrieve products.")
                response.status(500).send("An error occurred, please try again");
