@@ -1,4 +1,3 @@
-
 var productsArray = [
   "Box1",
   "Box2",
