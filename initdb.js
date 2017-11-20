@@ -1,6 +1,9 @@
 conn = new Mongo();
 db = conn.getDB("cpen400A_Wang_Kamath");
 
+db["users"].remove({});
+db["products"].remove({});
+db["orders"].remove({});
 db.createCollection("users", {});
 db.createCollection("products", {});
 db.createCollection("orders", {});

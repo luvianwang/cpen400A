@@ -264,6 +264,9 @@ function addItem(name){
     if(numProduct == null){
       cart[name] = 1;
       showRemoveButton(name);
+      if(products[name].quantity === 0){
+        hideAddButton(name);
+      }
     }else{
       cart[name] = cart[name] + 1;
       if(products[name].quantity === 0){
@@ -435,13 +438,13 @@ var ajaxGet = function(url, successCallback, errorCallback) {
 	xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
        // Typical action to be performed when the document is ready:
-	console.log(this.readyState + " " + this.status);
-console.log(xhttp.responseText);
+	       console.log(this.readyState + " " + this.status);
+          console.log(xhttp.responseText);
 	    successCallback(xhttp.responseText);
 	  }
       else if (this.readyState == 4) {
 		//console.log(this.readyState + " " + this.status + " " + "inside error");
-		errorCallback(this.status);
+		    errorCallback(this.status);
       }
     };
 
@@ -458,50 +461,48 @@ console.log(xhttp.responseText);
  * Success callback function for request made on checkout
  * @param response retrieved from request
  */
-function checkOutSuccess(response){
-    var response = JSON.parse(response);
-  console.log("Inside check out success");
-  checkoutTimeout = 0;
-  var isCartModified = false;
-  for(var key in cart){
-    console.log(products[key].price);
-    console.log(response[key].price);
-    if(products[key].price != response[key].price){
-      var oldprice = products[key].price;
-      var newprice = response[key].price;
-      products[key].price =  newprice;
-      alert("The price for product " + key + " has changed from $" +
-            oldprice + " to $" + newprice);
-      isCartModified = true;
-    }
+// function checkOutSuccess(response){
+//     var response = JSON.stringify(response);
+//   console.log("pp"+response);
+//   checkoutTimeout = 0;
+//   var isCartModified = false;
+  // for(var key in cart){
+  //   console.log(products[key].price);
+  //   console.log(response[key].price);
+  //   if(products[key].price != response[key].price){
+  //     var oldprice = products[key].price;
+  //     var newprice = response[key].price;
+  //     products[key].price =  newprice;
+  //     alert("The price for product " + key + " has changed from $" +
+  //           oldprice + " to $" + newprice);
+  //     isCartModified = true;
+  //   }
+  //
+  //   console.log(response[key].quantity);
+  //   console.log(cart[key]);
+  //   if(cart[key] > response[key].quantity){
+  //       if(response[key].quantity === 0){
+  //           alert("Product " +  key + " is out of stock!");
+  //           delete cart[key];
+  //       }else {
+  //           var newquantity = response[key].quantity;
+  //           alert("The available quanity for " + key + " is " + newquantity);
+  //           cart[key] = newquantity;
+  //       }
+  //
+  //       isCartModified = true;
+  //   }
+  // }
 
-    console.log(response[key].quantity);
-    console.log(cart[key]);
-    if(cart[key] > response[key].quantity){
-        if(response[key].quantity === 0){
-            alert("Product " +  key + " is out of stock!");
-            delete cart[key];
-        }else {
-            var newquantity = response[key].quantity;
-            alert("The available quanity for " + key + " is " + newquantity);
-            cart[key] = newquantity;
-        }
-
-        isCartModified = true;
-    }
-  }
-
-    updateCart();
-    var total = updateCartTotal();
-
-    if(isCartModified){
-        alert("The new total is $" + total);
-    }
-
-    alert("The products price and availability have been confirmed.")
-
-
-};
+    // updateCart();
+    // var total = updateCartTotal();
+    //
+    // if(isCartModified){
+    //     alert("The new total is $" + total);
+    // }
+    //
+    // alert("The products price and availability have been confirmed.")
+//};
 
 /**
  * Error callback function for request made on checkout
@@ -511,10 +512,51 @@ function checkOutFailure(response){
     checkoutTimeout = checkoutTimeout + 1;
     if(checkoutTimeout < checkoutLimit){
         console.log("Making request again");
-        makeRequest(checkOutSuccess, checkOutFailure);
+        makeCheckoutRequest(checkOutSuccess, checkOutFailure);
     }else{
         errorTimeout = 0;
     }
+};
+
+function makeCheckoutRequest(errorCallback){
+    var url = "/checkout";
+    var xhttp = new XMLHttpRequest();
+  	xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+         // Typical action to be performed when the document is ready:
+  	      //console.log("1"+this.readyState + " " + this.status);
+          //console.log("2"+xhttp.responseText);
+  	      //checkOutSuccess(xhttp.responseText);
+          for(var key in cart){
+            //console.log(products[key]);
+            delete cart[key];
+            isCartModified = true;
+            updateCart();
+            hideRemoveButton(key);
+          }
+          updateCartTotal();
+          alert("checkout success");
+          var modal = document.getElementById('myModal');
+        	modal.style.display = "none";
+  	  }else if (this.readyState == 4) {
+  		    //console.log(this.readyState + " " + this.status + " " + "inside error");
+  		    errorCallback(this.status);
+        }
+      };
+
+  	xhttp.onerror = function () {
+          errorCallback(this.status);
+      };
+
+  	xhttp.timeout = 2000;
+    xhttp.open("POST", url);
+    xhttp.setRequestHeader("Content-type", "application/json; charset=utf-8");
+    var payload = {
+            cart: cart,
+            total: total
+    }
+    xhttp.send(JSON.stringify(payload));
+
 };
 
 /**
@@ -523,5 +565,8 @@ function checkOutFailure(response){
 function checkOut(){
     resetTimer();
     console.log("Inside check out");
-    makeRequest(checkOutSuccess, checkOutFailure);
+    makeCheckoutRequest(checkOutFailure);
+    makeRequest(initializeProducts, handleRequestError);
+    makeRequest(initializeProducts, handleRequestError);
+    makeRequest(initializeProducts, handleRequestError);
 };
