@@ -1,24 +1,30 @@
 {
-  "name": "cpen400a_wang_kamath",
-  "version": "1.0.0",
-  "description": "",
+  "name": "node-js-sample",
+  "version": "0.2.0",
+  "description": "A sample Node.js app using Express 4",
   "main": "node app.js",
-  "dependencies": {
-    "express": "^4.16.2",
-    "mongodb": "^2.2.33"
-  },
-  "devDependencies": {},
   "scripts": {
     "start": "node app.js"
   },
+  "dependencies": {
+    "express": "^4.13.3",
+    "mongodb": "^2.2.33"
+  },
+  "engines": {
+    "node": "4.0.0"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RanjithaJS/cpen400A_Wang_Kamath.git"
+    "url": "https://github.com/heroku/node-js-sample"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/RanjithaJS/cpen400A_Wang_Kamath/issues"
-  },
-  "homepage": "https://github.com/RanjithaJS/cpen400A_Wang_Kamath#readme"
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "author": "Mark Pundsack",
+  "contributors": [
+    "Zeke Sikelianos <zeke@sikelianos.com> (http://zeke.sikelianos.com)"
+  ],
+  "license": "MIT"
 }
